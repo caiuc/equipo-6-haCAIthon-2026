@@ -94,15 +94,6 @@ header {
     font-size: 24px;
 }
 
-.logout-link {
-    color: #d32f2f;
-}
-
-.logout-link:hover {
-    color: #ff4d4d;
-    outline-color: #ff4d4d;
-}
-
 .links:hover {
     color:var(--text);
     outline: solid;
@@ -167,11 +158,17 @@ header {
     color: rgb(0, 0, 0);
     background-color: #c9bbe2;
     border-radius: 50px;
-    border: solid;
-    border-width: 0px;
+    border: none;
     padding: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    
+    /* Agregado para que la etiqueta <a> funcione como botón visualmente */
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .know-more:hover {
@@ -361,24 +358,6 @@ form {
     border: none;
     transition: all 0.3s;
     align-self: flex-end;
-}
-
-.contact-status {
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.contact-status.success {
-    color: #2e7d32;
-}
-
-.contact-status.error {
-    color: #d32f2f;
-}
-
-.contact-submit-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 .contact-submit-btn:hover {

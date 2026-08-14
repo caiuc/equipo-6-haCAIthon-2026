@@ -212,14 +212,6 @@ tbody tr:hover {
     text-align: center;
 }
 
-td.col-actions {
-    white-space: nowrap;
-}
-
-td.col-actions .btn-delete {
-    margin-left: 8px;
-}
-
 thead .col-actions {
     background-color: var(--accent);
 }
@@ -254,11 +246,6 @@ td strong {
 .badge.laptop { background-color: #2ecc71; }
 .badge.server { background-color: #e74c3c; }
 .badge.default { background-color: var(--accent); }
-
-/* Colores para el badge de Gama (puntuación de rendimiento) */
-.badge.tier-baja { background-color: #e74c3c; }
-.badge.tier-media { background-color: #f39c12; }
-.badge.tier-alta { background-color: #2ecc71; }
 
 /* =========================================
    BOTONES
@@ -297,30 +284,16 @@ td strong {
     background-color: var(--table-header);
 }
 
-.btn-edit, .btn-delete {
-    padding: 8px 16px;
-    font-size: 14px;
-}
-
 .btn-edit {
     background-color: white;
     color: var(--accent-dark);
     border: 1px solid var(--accent);
+    padding: 8px 16px;
+    font-size: 14px;
 }
 
 .btn-edit:hover {
     background-color: var(--accent);
-    color: white;
-}
-
-.btn-delete {
-    background-color: white;
-    color: #e74c3c;
-    border: 1px solid #e74c3c;
-}
-
-.btn-delete:hover {
-    background-color: #e74c3c;
     color: white;
 }
 

@@ -16,11 +16,10 @@
 
         <div class="header-content-right">
             <div class="links-right">
-                <a href="login.html" id="authLink" class="links">Inicio de sesion</a>
+                <a href="login.html" class="links">Inicio de sesion</a>
                 <a href="https://hulking-guanaco-e75.notion.site/331867f0a967801eba42c23804640978?pvs=105" class="links">Donaciones</a>
-                <a href="#questions" class="links">FAQ</a>
-                <a href="#equipo" class="links">Equipo</a>
-                <a href="#hitos" class="links">Hitos</a>
+                <a href="faq.html" class="links">FAQ</a>
+                <a href="hitos.html" class="links">Hitos</a>
                 <a href="equipos.html" class="links">Equipos</a>
                 <a href="benchmark.html" class="links">Benchmark</a>
             </div>
@@ -33,8 +32,8 @@
             <div class="hero-text">
                 <p class="catch">Innovación Tecnológica con Impacto Social</p>
                 <div class="hero-buttons">
-                    <button class="know-more">Quiero Donar</button>
-                    <button class="know-more outline">Unirme al Equipo</button>
+                    <a href="https://hulking-guanaco-e75.notion.site/331867f0a967801eba42c23804640978?pvs=105" class="know-more">Quiero Donar</a>
+                    <a href="https://hulking-guanaco-e75.notion.site/323867f0a9678006bdbec7ed4e0bea51?pvs=105" class="know-more outline">Unirme al Equipo</a>
                 </div>
             </div>
         </div>
@@ -72,32 +71,30 @@
         </div>
     </div>
 
-
     
     <div class="container" id="contactanos">
         <h2 class="container-title">Contactanos</h2>
         <div class="contact-container">
             <img src="images/contact-image.png" alt="Imagen Contacto" class="contact-image">
             <div class="contact-form">
-                <form id="contactForm">
+                <form action="https://formspree.io/f/xeeyraqb" method="POST">
                     <label class="form-title">
                         ¿Cual es tu nombre?
-                        <input type="text" id="contact-nombre" placeholder="ej: Nicolas Ortiz" class="form-input" required>
+                        <input type="text" name="nombre" placeholder="ej: Nicolas Ortiz" class="form-input">
                     </label>
                     <label class="form-title">
                         ¿Cual es tu correo?
-                        <input type="email" id="contact-email" placeholder="ej: ejemplo@dominio.com" class="form-input" required>
+                        <input type="email" name="email" placeholder="ej: ejemplo@dominio.com" class="form-input">
                     </label>
                     <label class="form-title">
                         ¿Cual es el motivo de tu mensaje?
-                        <input type="text" id="contact-asunto" placeholder="ej: Donacion de computadores" class="form-input" required>
+                        <input type="text" name="asunto" placeholder="ej: Donacion de computadores" class="form-input">
                     </label>
                     <label class="form-title" required>
                         ¿En que podemos ayudarte?
-                        <textarea id="contact-mensaje" class="form-content" placeholder="Escribenos tu mensaje" maxlength="500" required></textarea>
+                        <textarea name="mensaje" class="form-content" placeholder="Escribenos tu mensaje" maxlength="500" required></textarea>
                     </label>
-                    <div id="contactStatus" class="contact-status"></div>
-                    <button type="submit" class="contact-submit-btn" id="contactSubmitBtn">Enviar</button>
+                    <button type="submit" class="contact-submit-btn">Enviar</button>
                 </form>
             </div>
         </div>
@@ -129,62 +126,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const authLink = document.getElementById('authLink');
-        if (localStorage.getItem('jwtToken')) {
-            authLink.textContent = 'Cerrar Sesión';
-            authLink.href = '#';
-            authLink.classList.add('logout-link');
-            authLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                localStorage.removeItem('jwtToken');
-                window.location.href = 'index.html';
-            });
-        }
-
-        document.getElementById('contactForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const submitBtn = document.getElementById('contactSubmitBtn');
-            const status = document.getElementById('contactStatus');
-
-            const payload = {
-                name: document.getElementById('contact-nombre').value,
-                email: document.getElementById('contact-email').value,
-                subject: document.getElementById('contact-asunto').value,
-                message: document.getElementById('contact-mensaje').value,
-            };
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            status.textContent = '';
-            status.className = 'contact-status';
-
-            try {
-                const response = await fetch('http://localhost:3000/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'No se pudo enviar el mensaje.');
-                }
-
-                status.textContent = '¡Mensaje enviado! Revisa tu correo.';
-                status.classList.add('success');
-                e.target.reset();
-            } catch (error) {
-                status.textContent = error.message;
-                status.classList.add('error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Enviar';
-            }
-        });
-    </script>
 </body>
 </html>

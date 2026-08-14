@@ -47,7 +47,6 @@
                         <th>Nombre</th>
                         <th>Propietario</th>
                         <th>Tipo</th>
-                        <th>Gama</th>
                         <th>Procesador</th>
                         <th>Memoria RAM</th>
                         <th>Almacenamiento</th>
@@ -84,15 +83,6 @@
                             <option value="Desktop">Desktop</option>
                             <option value="Laptop">Laptop</option>
                             <option value="Server">Server</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="f-tier">Gama (puntuación)</label>
-                        <select id="f-tier">
-                            <option value="">Sin definir</option>
-                            <option value="Baja">Baja</option>
-                            <option value="Media">Media</option>
-                            <option value="Alta">Alta</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -159,7 +149,6 @@
             name: document.getElementById('f-name'),
             owner: document.getElementById('f-owner'),
             type: document.getElementById('f-type'),
-            tier: document.getElementById('f-tier'),
             processor: document.getElementById('f-processor'),
             ramType: document.getElementById('f-ramType'),
             ramCapacity: document.getElementById('f-ramCapacity'),
@@ -210,37 +199,16 @@
                 <td><strong>${escapeHtml(pc.name) || 'N/A'}</strong></td>
                 <td>${escapeHtml(pc.owner) || 'N/A'}</td>
                 <td><span class="badge ${pc.type ? pc.type.toLowerCase() : 'default'}">${escapeHtml(pc.type) || 'N/A'}</span></td>
-                <td>${pc.tier ? `<span class="badge tier-${pc.tier.toLowerCase()}">${escapeHtml(pc.tier)}</span>` : '-'}</td>
                 <td>${escapeHtml(pc.processor) || 'N/A'}</td>
                 <td>${pc.ramCapacity ?? '?'} GB ${escapeHtml(pc.ramType)}</td>
                 <td>${pc.storageCapacity ?? '?'} GB ${escapeHtml(pc.storageType)}</td>
                 <td>${escapeHtml(pc.graphics) || 'Integrados'}</td>
                 <td class="comments">${escapeHtml(pc.comment) || 'Sin comentarios'}</td>
-                <td class="col-actions">
-                    <button type="button" class="btn-edit">Editar</button>
-                    <button type="button" class="btn-delete">Eliminar</button>
-                </td>
+                <td class="col-actions"><button type="button" class="btn-edit">Editar</button></td>
             `;
 
             tr.querySelector('.btn-edit').addEventListener('click', () => openModal(pc));
-            tr.querySelector('.btn-delete').addEventListener('click', () => deleteComputer(pc));
             tableBody.appendChild(tr);
-        }
-
-        async function deleteComputer(pc) {
-            if (!confirm(`¿Eliminar el equipo "${pc.name || pc.id}"? Esta acción no se puede deshacer.`)) return;
-
-            try {
-                const response = await apiFetch(`/computers/${pc.id}`, { method: 'DELETE' });
-                if (!response) return;
-                if (!response.ok) {
-                    const data = await response.json().catch(() => ({}));
-                    throw new Error(data.error || 'No se pudo eliminar el equipo.');
-                }
-                loadComputers();
-            } catch (error) {
-                showStatus(error.message, true);
-            }
         }
 
         async function loadComputers() {
@@ -278,7 +246,6 @@
                 fields.name.value = pc.name || '';
                 fields.owner.value = pc.owner || '';
                 fields.type.value = pc.type || 'Desktop';
-                fields.tier.value = pc.tier || '';
                 fields.processor.value = pc.processor || '';
                 fields.ramType.value = pc.ramType || '';
                 fields.ramCapacity.value = pc.ramCapacity ?? '';
@@ -313,7 +280,6 @@
                 name: fields.name.value,
                 owner: fields.owner.value,
                 type: fields.type.value,
-                tier: fields.tier.value || null,
                 processor: fields.processor.value,
                 ramType: fields.ramType.value,
                 ramCapacity: fields.ramCapacity.value ? Number(fields.ramCapacity.value) : null,
