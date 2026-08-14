@@ -214,31 +214,7 @@ Sitio estático, sin framework ni build step. Se abre directamente o se sirve co
 
 ## Estado actual y pendientes
 
-Este es un prototipo de hackathon (8 horas). Lo que falta, documentado explícitamente:
-
-### Bloqueantes
-
-- **La GUI no está conectada al benchmark real.** `benchmark_logic.get_benchmark_results()` devuelve datos hardcodeados (un Ryzen 7 5800X ficticio). Falta fusionar `initial.py` con `benchmark_logic.py` para que el botón "Correr Benchmark" dispare PTS de verdad y parsee sus resultados.
-- **El backend no arranca.** Hay que resolver antes:
-  - `routes/index.js` llama `router.use('/contact')` sin handler → Express 5 lanza excepción al iniciar.
-  - `routes/contact.js` no importa `express`, no crea un `router` ni exporta nada.
-  - `routes/computer.js` requiere `../middleware/authenticate`, pero la carpeta se llama `middlewares/` (plural).
-  - `models/index.js` requiere `config/config.json`, pero solo existe `config/config.js`.
-  - `package.json` no declara `jsonwebtoken`, `sequelize`, `pg` ni `pg-hstore`, que sí se usan en el código.
-  - `models/user.js` y la migración de usuarios hacen `require('../app')` sin necesitarlo, creando un ciclo de imports.
-- **El inventario web usa datos falsos.** `equipos.html` tiene la verificación de token comentada y renderiza un array `mockComputers` hardcodeado en vez de llamar a `GET /api/computers`.
-
-### Inconsistencias de diseño a resolver
-
-- **Dos modelos de ponderación distintos.** El diseño del benchmark con PTS apunta a disco 45 % / CPU 30 % / RAM 25 % (calibrado con un i3-2100 como piso de referencia). El código en `benchmark_analyzer_config.py` usa CPU 40 % / GPU 20 % / disco 20 % / RAM 10 % / navegador 10 %. Hay que unificar: si el proyecto es solo Linux para ofimática, GPU y navegador probablemente no deberían pesar, y el disco debería dominar.
-- **Categorías sin motor detrás.** La GUI muestra GPU y navegador, pero el set de tests de PTS elegido no los mide.
-- **Escala de scores sin normalizar.** Los umbrales de gamas (2 500 / 9 000 / 40 000) son valores absolutos que no corresponden a las unidades que devuelve PTS. Falta la normalización 0–100 contra el equipo de referencia.
-- `PRESET_OPTIONS` en `initial.py` tiene placeholders sin completar (`fio.mode=...`, `fio.blocksize=...`).
-- `CPU_BENCH_URL` en `config.py` apunta a `https://example.com/cpu-bench-info`.
-- El README de `frontend/`, `backend/` y `benchmark/` sigue siendo el resumen de las bases de la hackathon, no documentación del código.
-- No hay tests en ningún componente.
-
----
+Este es un prototipo de hackathon (8 horas).
 
 ## Estructura del repositorio
 
