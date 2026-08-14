@@ -21,7 +21,7 @@ El repositorio agrupa cuatro componentes que hoy viven en carpetas separadas:
 | Componente | Carpeta | Stack | Rol |
 |---|---|---|---|
 | **Motor de benchmark (NO FUNCIONAL)** | `benchmark/` | Python + Phoronix Test Suite | Corre las pruebas reales sobre el hardware |
-| **Interfaz gráfica y Benchmark (FUNCIONAL)** | `interfaz_grafica/` | Python + PySide6 (Qt) + Benchmark (FUNCIONAL) | App de escritorio que dispara el benchmark y muestra resultados |
+| **Interfaz gráfica y Benchmark (FUNCIONAL)** | `interfaz_grafica_benchmark/` | Python + PySide6 (Qt) + Benchmark (FUNCIONAL) | App de escritorio que dispara el benchmark y muestra resultados |
 | **Backend / API** | `backend/` | Node.js + Express 5 + Sequelize + PostgreSQL | Autenticación e inventario centralizado de equipos |
 | **Sitio web** | `frontend/` | HTML + CSS + JS vanilla | Landing pública, login e inventario |
 
