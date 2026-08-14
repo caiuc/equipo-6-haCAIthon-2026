@@ -20,11 +20,13 @@
                     <p>Ingresa tus credenciales para continuar</p>
                 </div>
 
+                <!-- FORM DE LOGIN -->
                 <form id="loginForm">
-                    <!-- Grupo de Input: Correo / Usuario -->
+                    <!-- Grupo de Input: Correo -->
                     <div class="input-group">
                         <img src="images/envelope.png" alt="Correo" class="input-icon">
-                        <input type="text" id="username" name="username" placeholder="Usuario o Correo" required>
+                        <!-- Cambiamos type="text" a type="email" y los identificadores -->
+                        <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
                     </div>
 
                     <!-- Grupo de Input: Contraseña -->
@@ -49,29 +51,28 @@
     <!-- Lógica de Comunicación con la API -->
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Evita que la página se recargue al enviar el formulario
+            e.preventDefault(); 
             
             const submitBtn = document.getElementById('submitBtn');
             const errorMessage = document.getElementById('errorMessage');
             
-            // Obtener los valores de los inputs
-            const usernameInput = document.getElementById('username').value;
+            // Ahora obtenemos el valor del ID 'email'
+            const emailInput = document.getElementById('email').value;
             const passwordInput = document.getElementById('password').value;
 
-            // Crear el objeto que enviaremos como JSON
+            // El payload ahora coincide con tu modelo de Sequelize
             const payload = {
-                usuario: usernameInput,
+                email: emailInput,
                 password: passwordInput
             };
 
             try {
-                // Estado de carga en el botón
                 submitBtn.textContent = 'Verificando...';
                 submitBtn.disabled = true;
                 errorMessage.style.display = 'none';
 
-                // REEMPLAZA ESTA URL CON LA DE TU API REAL
-                const apiUrl = 'https://tu-api.com/api/auth/login'; 
+                // URL de la API (Asegúrate de poner la ruta de tu controlador de login)
+                const apiUrl = 'http://localhost:3000/api/auth/login'; 
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -84,20 +85,16 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Si el login es exitoso, asumimos que la API devuelve { "token": "eyJhbG..." }
-                    // Guardamos el JSON Web Token (JWT) en el LocalStorage
+                    // Guardamos el token
                     localStorage.setItem('jwtToken', data.token);
                     
-                    // Redirigir al dashboard o página de inicio
                     submitBtn.textContent = '¡Éxito!';
                     window.location.href = 'index.html'; 
                 } else {
-                    // Mostrar error si las credenciales son incorrectas
-                    throw new Error(data.message || 'Usuario o contraseña incorrectos.');
+                    throw new Error(data.message || 'Correo o contraseña incorrectos.');
                 }
 
             } catch (error) {
-                // Manejo de errores (falla de red o credenciales inválidas)
                 errorMessage.textContent = error.message;
                 errorMessage.style.display = 'block';
                 submitBtn.textContent = 'Iniciar Sesión';

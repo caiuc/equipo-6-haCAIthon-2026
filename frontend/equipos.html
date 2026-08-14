@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU - Inventario de Equipos</title>
+    <link rel="stylesheet" href="equipos.css">
+</head>
+<body>
+
+    <!-- HEADER PROTEGIDO -->
+    <header>
+        <div class="header-content-left">
+            <a href="index.html" class="logo"></a>
+        </div>
+
+        <div class="header-content-right">
+            <div class="links-right">
+                <a href="index.html" class="links">Inicio</a>
+                <!-- Botón para cerrar sesión -->
+                <a href="#" id="logoutBtn" class="links logout-link">Cerrar Sesión</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="inventory-container">
+        <div class="inventory-header">
+            <h1 class="container-title">Inventario de Equipos</h1>
+            <p>Listado general de los computadores registrados en el sistema.</p>
+        </div>
+
+        <!-- Mensaje de estado (Cargando o Error) -->
+        <div id="statusMessage" class="status-message">Cargando equipos...</div>
+
+        <!-- TABLA DE EQUIPOS -->
+        <div class="table-wrapper">
+            <table id="computersTable" class="hidden">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Propietario</th>
+                        <th>Tipo</th>
+                        <th>Procesador</th>
+                        <th>Memoria RAM</th>
+                        <th>Almacenamiento</th>
+                        <th>Gráficos</th>
+                        <th>Comentarios</th>
+                    </tr>
+                </thead>
+                <tbody id="computerTableBody">
+                    <!-- Los datos de la API se inyectarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Lógica de Autenticación y Consumo de API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. DESACTIVAMOS LA SEGURIDAD PARA PRUEBAS
+            // const token = localStorage.getItem('jwtToken');
+            // if (!token) { window.location.href = 'login.html'; return; }
+
+            const table = document.getElementById('computersTable');
+            const tableBody = document.getElementById('computerTableBody');
+            const statusMessage = document.getElementById('statusMessage');
+
+            // 2. CREAMOS DATOS FALSOS BASADOS EN TU MODELO
+            const mockComputers = [
+                {
+                    id: 1, name: 'PC-Taller-01', owner: 'Proyecto CPU', type: 'Desktop',
+                    processor: 'Intel Core i5-6500', ramCapacity: 8, ramType: 'DDR4',
+                    storageCapacity: 256, storageType: 'SSD', graphics: 'Intel HD 530',
+                    comment: 'Equipo reparado, listo para donar.'
+                },
+                {
+                    id: 2, name: 'Laptop-Coord', owner: 'Directiva', type: 'Laptop',
+                    processor: 'AMD Ryzen 5 3500U', ramCapacity: 12, ramType: 'DDR4',
+                    storageCapacity: 512, storageType: 'NVMe', graphics: 'Vega 8',
+                    comment: 'Uso exclusivo de coordinación.'
+                },
+                {
+                    id: 3, name: 'Server-Local', owner: 'Infraestructura', type: 'Server',
+                    processor: 'Intel Xeon E3-1220', ramCapacity: 32, ramType: 'ECC DDR3',
+                    storageCapacity: 2000, storageType: 'HDD', graphics: 'Integrados',
+                    comment: 'Falta formatear e instalar Linux.'
+                }
+            ];
+
+            // 3. SIMULAMOS LA CARGA DE LA API (Retraso de 1 segundo para ver el efecto)
+            setTimeout(() => {
+                try {
+                    // Aquí iría el fetch() real en producción.
+                    // Asumimos que "mockComputers" es lo que respondió la API.
+
+                    statusMessage.style.display = 'none'; // Ocultar mensaje de "Cargando..."
+                    table.classList.remove('hidden'); // Mostrar tabla
+
+                    mockComputers.forEach(pc => {
+                        const tr = document.createElement('tr');
+                        
+                        tr.innerHTML = `
+                            <td>${pc.id || '-'}</td>
+                            <td><strong>${pc.name || 'N/A'}</strong></td>
+                            <td>${pc.owner || 'N/A'}</td>
+                            <td><span class="badge ${pc.type ? pc.type.toLowerCase() : 'default'}">${pc.type || 'N/A'}</span></td>
+                            <td>${pc.processor || 'N/A'}</td>
+                            <td>${pc.ramCapacity || '?'} GB ${pc.ramType || ''}</td>
+                            <td>${pc.storageCapacity || '?'} GB ${pc.storageType || ''}</td>
+                            <td>${pc.graphics || 'Integrados'}</td>
+                            <td class="comments">${pc.comment || 'Sin comentarios'}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+
+                } catch (error) {
+                    statusMessage.textContent = 'Error al simular los datos.';
+                    statusMessage.style.color = '#d32f2f';
+                    statusMessage.style.backgroundColor = '#ffebee';
+                }
+            }, 1000); // 1000 milisegundos = 1 segundo de "carga falsa"
+        });
+
+        // 4. Lógica para Cerrar Sesión (Simulada)
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('En producción, esto borraría el Token y te enviaría al Login.');
+            window.location.href = 'login.html'; 
+        });
+    </script>
+</body>
+</html>

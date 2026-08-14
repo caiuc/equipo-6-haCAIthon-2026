@@ -18,11 +18,11 @@
             <div class="links-right">
                 <a href="login.html" class="links">Inicio de sesion</a>
                 <a href="https://hulking-guanaco-e75.notion.site/331867f0a967801eba42c23804640978?pvs=105" class="links">Donaciones</a>
-                <a href="#contactanos" class="links">Contactanos</a>
                 <a href="#questions" class="links">FAQ</a>
                 <a href="#equipo" class="links">Equipo</a>
                 <a href="#hitos" class="links">Hitos</a>
-                <a href="#historia" class="links">Historia</a>
+                <a href="equipos.html" class="links">Equipos</a>
+                <a href="benchmark.html" class="links">Benchmark</a>
             </div>
         </div>
     </header>
@@ -47,27 +47,26 @@
                 <h2 class="card-title">Donación a Penco!</h2>
                 <p class="card-date">20/12/25</p>
                 <p class="card-content">Entregamos veinte equipos reacondicionados a una escuela rural en Penco, brindando a los estudiantes nuevas herramientas para su desarrollo tecnológico.</p>
-                <img src="images/place_holder.png" alt="Imagen Card" class="card-image">
+                <img src="images/donacion_penco.png" alt="Imagen Card" class="card-image">
             </div>
             <div class="card">
                 <h2 class="card-title">Recuperación de Equipos</h2>
                 <p class="card-date">20/12/25</p>
                 <p class="card-content">Nuestra comunidad estudiantil trabaja arduamente para reparar y diagnosticar hardware desechado, dándole una segunda vida útil a equipos que aún tienen mucho que ofrecer.</p>
-                <img src="images/place_holder.png" alt="Imagen Card" class="card-image">
+                <img src="images/donacion_equipos.png" alt="Imagen Card" class="card-image">
             </div>
             
             <div class="card">
                 <h2 class="card-title">Trabajo en Equipo</h2>
                 <p class="card-date">20/12/25</p>
                 <p class="card-content">Somos un grupo de estudiantes comprometidos con la tecnología y la educación. Unimos nuestros conocimientos técnicos para generar un impacto positivo y real en nuestro entorno.</p>
-                <img src="images/place_holder.png" alt="Imagen Card" class="card-image">
+                <img src="images/equipo.png" alt="Imagen Card" class="card-image">
             </div>
             
             <div class="card">
-                <h2 class="card-title">Estaciones Funcionales</h2>
-                <p class="card-date">20/12/25</p>
-                <p class="card-content">Preparamos y configuramos cada computador al máximo, asegurando que los colegios reciban estaciones de trabajo completas y listas para potenciar el aprendizaje desde el primer día.</p>
-                <img src="images/place_holder.png" alt="Imagen Card" class="card-image">
+                <h2 class="card-title">Herramienta de Benchmark</h2>
+                <p class="card-date">14/08/26</p>
+                <p class="card-content">Desarrollamos nuestro propio software de evaluación para medir el rendimiento real de los equipos recuperados. Esta herramienta nos permite clasificar cada computador en distintas gamas, asegurando que se destinen a las tareas educativas más adecuadas según su capacidad.</p>                <img src="images/place_holder.png" alt="Imagen Card" class="card-image">
             </div>
         </div>
     </div>
@@ -102,19 +101,19 @@
                 <form action="https://formspree.io/f/xeeyraqb" method="POST">
                     <label class="form-title">
                         ¿Cual es tu nombre?
-                        <input type="text" name="nombre" class="form-input">
+                        <input type="text" name="nombre" placeholder="ej: Nicolas Ortiz" class="form-input">
                     </label>
                     <label class="form-title">
                         ¿Cual es tu correo?
-                        <input type="email" name="email" class="form-input">
+                        <input type="email" name="email" placeholder="ej: ejemplo@dominio.com" class="form-input">
                     </label>
                     <label class="form-title">
                         ¿Cual es el motivo de tu mensaje?
-                        <input type="text" name="asunto" class="form-input">
+                        <input type="text" name="asunto" placeholder="ej: Donacion de computadores" class="form-input">
                     </label>
                     <label class="form-title" required>
                         ¿En que podemos ayudarte?
-                        <textarea name="mensaje" class="form-content" maxlength="500" required></textarea>
+                        <textarea name="mensaje" class="form-content" placeholder="Escribenos tu mensaje" maxlength="500" required></textarea>
                     </label>
                     <button type="submit" class="contact-submit-btn">Enviar</button>
                 </form>
