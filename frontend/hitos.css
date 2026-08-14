@@ -1,0 +1,266 @@
+@font-face {
+    font-family: "MapleMono";
+    src: url(MapleMono-NF-Base-Mono.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "MapleMono", monospace, sans-serif;
+}
+
+:root {
+    --accent: #765ba4;
+    --accent-dark: #4b3670;
+    --bg-color: #f9f6ff;
+    --text-main: #180a30;
+    --card-bg: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+header {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+}
+
+.header-content-left {
+    align-items: center;
+    padding-left: 30px;
+    flex-grow: .4;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+.logo {
+    background-image: url("images/cpu-logo.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    width: 80px;
+    height: 60px;
+    display: block;
+}
+
+.header-content-right {
+    justify-content: right;
+    align-items: center;
+    padding-right: 30px;
+    height: 100%;
+    flex: 2;
+    display: flex;
+}
+
+.links-right {
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    display: flex;
+    gap: 35px;
+}
+
+.links {
+    color: white;
+    text-decoration: none;
+    border-style: solid none none none;
+    border-color: white;
+    border-width: 1px;
+    padding: 5px;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.links:hover {
+    outline: solid;
+    outline-color: white;
+    outline-width: 2px;
+}
+
+/* =========================================
+   CONTENEDOR DE HITOS
+========================================= */
+.hitos-container {
+    padding: 140px 5% 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hitos-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hitos-title {
+    font-size: 45px;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.hitos-title::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 4px;
+    background-color: var(--accent);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.hitos-subtitle {
+    font-size: 20px;
+    color: var(--accent-dark);
+}
+
+/* =========================================
+   LÍNEA DE TIEMPO (TIMELINE)
+========================================= */
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* La línea vertical central */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: #c9bbe2; /* Morado claro */
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px; /* Centra la línea de 4px */
+    border-radius: 2px;
+}
+
+/* Contenedor individual de cada hito */
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+/* Ubicación izquierda/derecha */
+.timeline-item.left {
+    left: 0;
+}
+
+.timeline-item.right {
+    left: 50%;
+}
+
+/* Los círculos de los nodos (puntos en la línea) */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: var(--bg-color);
+    border: 4px solid var(--accent);
+    top: 28px;
+    border-radius: 50%;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+.timeline-item.left::after {
+    right: -12px; /* Alinea el círculo a la línea central */
+}
+
+.timeline-item.right::after {
+    left: -12px; /* Alinea el círculo a la línea central */
+}
+
+.timeline-item:hover::after {
+    background-color: var(--accent);
+}
+
+/* Tarjetas de contenido */
+.timeline-content {
+    padding: 25px 30px;
+    background-color: var(--card-bg);
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(118, 91, 164, 0.1);
+    border-top: 5px solid var(--accent);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(118, 91, 164, 0.2);
+}
+
+.timeline-content .date {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background-color: #e8def8;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.timeline-content h2 {
+    color: var(--text-main);
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.timeline-content p {
+    color: #444;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* =========================================
+   RESPONSIVIDAD (MÓVILES)
+========================================= */
+@media screen and (max-width: 768px) {
+    /* Movemos la línea central a la izquierda */
+    .timeline::after {
+        left: 31px;
+    }
+    
+    /* Todas las tarjetas ocupan el 100% del ancho */
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    
+    /* Evitamos que las tarjetas "right" se salgan de la pantalla */
+    .timeline-item.right {
+        left: 0;
+    }
+
+    /* Movemos los círculos al lado izquierdo para todas las tarjetas */
+    .timeline-item.left::after, 
+    .timeline-item.right::after {
+        left: 19px;
+    }
+}

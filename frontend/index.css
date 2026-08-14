@@ -158,11 +158,17 @@ header {
     color: rgb(0, 0, 0);
     background-color: #c9bbe2;
     border-radius: 50px;
-    border: solid;
-    border-width: 0px;
+    border: none;
     padding: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    
+    /* Agregado para que la etiqueta <a> funcione como botón visualmente */
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .know-more:hover {
