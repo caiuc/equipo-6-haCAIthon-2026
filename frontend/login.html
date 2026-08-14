@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU - Iniciar Sesión</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="login-container">
+            <!-- El oso asomándose por la derecha -->
+            <img src="images/cpucin-login.png" alt="Oso Mascota CPU" class="bear-mascot">
+            
+            <!-- Recuadro principal de Login -->
+            <div class="login-box">
+                <div class="login-header">
+                    <h2>Bienvenido de vuelta</h2>
+                    <p>Ingresa tus credenciales para continuar</p>
+                </div>
+
+                <!-- FORM DE LOGIN -->
+                <form id="loginForm">
+                    <!-- Grupo de Input: Correo -->
+                    <div class="input-group">
+                        <img src="images/envelope.png" alt="Correo" class="input-icon">
+                        <!-- Cambiamos type="text" a type="email" y los identificadores -->
+                        <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+                    </div>
+
+                    <!-- Grupo de Input: Contraseña -->
+                    <div class="input-group">
+                        <img src="images/lock.png" alt="Contraseña" class="input-icon">
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                    </div>
+
+                    <!-- Contenedor para mensajes de error de la API -->
+                    <div id="errorMessage" class="error-message"></div>
+
+                    <button type="submit" class="login-btn" id="submitBtn">Iniciar Sesión</button>
+                </form>
+
+                <div class="login-footer">
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lógica de Comunicación con la API -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Ahora obtenemos el valor del ID 'email'
+            const emailInput = document.getElementById('email').value;
+            const passwordInput = document.getElementById('password').value;
+
+            // El payload ahora coincide con tu modelo de Sequelize
+            const payload = {
+                email: emailInput,
+                password: passwordInput
+            };
+
+            try {
+                submitBtn.textContent = 'Verificando...';
+                submitBtn.disabled = true;
+                errorMessage.style.display = 'none';
+
+                // URL de la API (Asegúrate de poner la ruta de tu controlador de login)
+                const apiUrl = 'http://localhost:3000/api/auth/login'; 
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Guardamos el token
+                    localStorage.setItem('jwtToken', data.token);
+                    
+                    submitBtn.textContent = '¡Éxito!';
+                    window.location.href = 'index.html'; 
+                } else {
+                    throw new Error(data.message || 'Correo o contraseña incorrectos.');
+                }
+
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+                submitBtn.textContent = 'Iniciar Sesión';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
