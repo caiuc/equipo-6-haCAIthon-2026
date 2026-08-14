@@ -1,0 +1,54 @@
+# Generado por Claude
+
+# Phoronix Test Suite — descargado/instalado automáticamente, no versionar
+phoronix-test-suite/
+.phoronix-test-suite/
+*.phoronix-test-suite/
+
+# Resultados y caches de PTS (se generan en tiempo de ejecución)
+test-results/
+download-cache/
+installed-tests/
+test-profiles/
+openbenchmarking.org/
+*.ptsc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.env
+.python-version
+
+# Distribución / build
+build/
+dist/
+*.egg
+
+# Logs
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Editores / IDEs
+.vscode/
+.idea/
+*.swp
+
+# Salidas de benchmarks / datos generados localmente
+*.json
+!package.json
+!package-lock.json
+results/
+data/raw/
+
+# ISO / imágenes de build (si armas la live ISO en el mismo repo)
+*.iso
+build-iso/
