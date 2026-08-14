@@ -1,0 +1,205 @@
+@font-face{
+    font-family: "MapleMono";
+    src: url(MapleMono-NF-Base-Mono.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "MapleMono", monospace, sans-serif;
+}
+
+:root {
+    --accent: #765ba4;
+    --accent-hover: #6e4bac;
+    --bg-color: #f9f6ff;
+    --input-bg: #e8def8;
+    --text-main: #180a30;
+    --error-color: #d32f2f;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Se quita el overflow: hidden para permitir scroll si la pantalla es muy bajita */
+}
+
+/* Wrapper principal centrado */
+.login-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Contenedor relativo para posicionar al oso respecto al recuadro */
+.login-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+    width: 100%;
+    /* Damos margen arriba para que quepa la cabeza del oso */
+    margin-top: 150px; 
+}
+
+/* El Recuadro del Login */
+.login-box {
+    background-color: white;
+    width: 100%;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 5px 10px 25px rgba(118, 91, 164, 0.15);
+    z-index: 2; /* Por encima del oso */
+    position: relative;
+    border-top: 6px solid var(--accent);
+}
+
+/* El Oso asomándose por ARRIBA */
+.bear-mascot {
+    position: absolute;
+    /* Lo subimos fuera del contenedor */
+    top: -200px; 
+    /* Lo centramos horizontalmente */
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 250px; /* Un poco más grande para que se note bien la cara y la llave */
+    z-index: 1; /* Detrás del recuadro principal */
+    mix-blend-mode: darken; /* Para que el fondo blanco del jpg se fusione */
+    transition: top 0.3s ease;
+}
+
+/* Textos Superiores */
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 {
+    font-size: 28px;
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+.login-header p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Diseño de los Inputs */
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: var(--input-bg);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding: 5px 15px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.input-group:focus-within {
+    border-color: var(--accent);
+}
+
+.input-icon {
+    width: 24px;
+    height: 24px;
+    image-rendering: pixelated;
+    margin-right: 10px;
+    opacity: 0.8;
+}
+
+.input-group input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 12px 0;
+    font-size: 16px;
+    color: var(--text-main);
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #8c7ba8;
+}
+
+/* Botón de Login */
+.login-btn {
+    width: 100%;
+    background-color: #c9bbe2;
+    color: var(--text-main);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+.login-btn:active {
+    background-color: var(--accent-hover);
+    transform: translateY(2px);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Mensaje de Error */
+.error-message {
+    display: none;
+    background-color: #ffebee;
+    color: var(--error-color);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+    border: 1px solid #ffcdd2;
+}
+
+/* Footer del recuadro */
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+.login-footer a:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+/* Responsividad para móviles */
+@media (max-width: 450px) {
+    .bear-mascot {
+        width: 200px;
+        top: -120px;
+    }
+    .login-container {
+        margin-top: 120px;
+    }
+}
