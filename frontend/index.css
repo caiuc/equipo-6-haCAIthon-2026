@@ -94,6 +94,15 @@ header {
     font-size: 24px;
 }
 
+.logout-link {
+    color: #d32f2f;
+}
+
+.logout-link:hover {
+    color: #ff4d4d;
+    outline-color: #ff4d4d;
+}
+
 .links:hover {
     color:var(--text);
     outline: solid;
@@ -352,6 +361,24 @@ form {
     border: none;
     transition: all 0.3s;
     align-self: flex-end;
+}
+
+.contact-status {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.contact-status.success {
+    color: #2e7d32;
+}
+
+.contact-status.error {
+    color: #d32f2f;
+}
+
+.contact-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .contact-submit-btn:hover {
