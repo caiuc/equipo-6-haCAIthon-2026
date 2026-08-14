@@ -1,116 +1,110 @@
-# HaCAiThon 2026 · RESUMEN BASES OFICIALES
+# Benchmark Ligero — Interfaz GUI (PySide6)
 
-<p align="left">
-  <a href="https://tinyurl.com/Hacaithon" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Logo_CAi.png" height="28" alt="Logo CAi UC" align="center" /><img src="https://img.shields.io/badge/CAi-Ingenier%C3%ADa_UC-FFC72C?style=for-the-badge" alt="CAi Badge" align="center" /></a>
-</p>
+## Requisitos
+```bash
+pip install PySide6
+```
 
-## Centro de Alumnos de Ingeniería UC · Primera edición 
+## Ejecutar
+```bash
+python main.py
+```
 
-### 1. QUÉ ES
+## Estructura del proyecto
 
-* Hackathon presencial de 8 horas (12:00 a 20:00 hrs) para estudiantes de Ingeniería, de la LICC y de la LICD, trabajando en equipos multidisciplinarios en soluciones a seis 
-desafíos sociales usando programación e IA. Está orientada a estudiantes de pregrado.
----
-### 2. QUIÉNES PUEDEN PARTICIPAR
+```
+config.py            -> Todos los textos, tamaños, URL y lista de tests personalizados.
+                         Es lo primero que deberías editar para personalizar la app.
 
-* Estudiantes de Ingeniería UC, de la LICC y de la LICD, de cualquier nivel y major, con 80 plazas disponibles. No se requiere experiencia previa en programación más allá de Intro a la Progra.
+theme.py              -> Todo el estilo visual: colores, degradado de fondo, fuentes
+                         y QSS de cada tipo de widget (botones, tarjetas, checkboxes...).
+                         Edita este archivo para cambiar la paleta de colores de toda la app.
 
-* La competencia está orientada al pregrado, pero se admite posgrado con un límite de composición: cada equipo puede incluir como máximo 1 participante de posgrado (magíster o doctorado); los otros 3 deben ser de pregrado. No se aceptan equipos con 2 o más participantes de posgrado.
+circuit_background.py -> Widget decorativo que dibuja las líneas de "circuito" en las
+                         esquinas de la ventana (puramente estético).
 
-* Si cursas ramos de magíster bajo articulación y mantienes tu matrícula de pregrado activa, cuentas como participante de pregrado. Quien participa desde posgrado ocupa una plaza en las mismas condiciones y compite por los mismos premios, salvo el de Mejor Equipo Novato.
----
-### 3. EQUIPOS E INSCRIPCIÓN
+benchmark_logic.py    -> La lógica real del benchmark (hoy son placeholders con time.sleep).
+                         Reemplaza el contenido de run_full_benchmark() y
+                         run_custom_tests() con tu código real.
 
-* Equipos de 4 personas, con cupos limitados. Puedes postular con menos, o sin equipo: indicas cuántos son y el CAi arma los equipos incompletos antes del evento. No puedes sumarte por tu cuenta a un equipo ya postulado; el emparejamiento lo hace la organización.
+workers.py            -> QThreads que corren benchmark_logic.py sin congelar la UI.
+                         Normalmente no necesitas tocar esto.
 
-* Cada equipo designa un/a líder de grupo como contacto oficial.
+running_dialog.py     -> Ventana "Ejecutando benchmark..." con barra de progreso.
 
-* Cada integrante declara en el formulario su programa principal vigente (pregrado o posgrado) y su año de ingreso. Declarar información falsa o incompleta es causal de descalificación.
+options_window.py     -> Ventana de Opciones (checkboxes de tests personalizados,
+                          generados automáticamente desde config.CUSTOM_TESTS).
 
-* Inscripciones: del 2 al 12 de agosto de 2026, hasta las 23:59.
----
-### 4. VERIFICACIÓN DEL EQUIPO
+results_window.py     -> Ventana de Resultados: score total + tarjetas por
+                          categoría (CPU, GPU, RAM, disco, navegador). Las
+                          categorías mostradas se definen en config.RESULT_CATEGORIES.
 
-* El CAi revisa la composición declarada de cada equipo durante el plazo de inscripción. Si un equipo excede el límite de 1 participante de posgrado, se le avisa por correo a las direcciones declaradas y tiene hasta el cierre de inscripciones (12 de agosto) para corregirlo. Si el aviso se envía dentro de los últimos 3 días del plazo, el equipo tiene 48 horas desde el envío para responder, aunque eso pase del 12 de agosto.
+main_window.py         -> Ventana principal: botón split (CPU Bench | Opciones)
+                          + botón "Correr Benchmark".
 
-* El equipo que no corrija su composición a tiempo queda descalificado y su cupo puede reasignarse. Mantén vigentes y revisadas las direcciones de correo que declaraste.
----
-### 5. PREMIO MEJOR EQUIPO NOVATO
+main.py                -> Punto de entrada.
+```
 
-* Es novato quien cursa su primer año en la Universidad como estudiante de pregrado; se declara al inscribirse y se verifica con el año de ingreso registrado.
+## Cómo modificar cosas comunes
 
-* El Premio Mejor Equipo Novato se otorga solo a equipos formados en su totalidad por participantes novatos. Un equipo con alguien de posgrado, o con cualquier integrante que no sea novato, no opta a este premio, pero compite normalmente por el podio y las demás categorías.
----
-### 6. SELECCIÓN DE POSTULACIONES
+### Cambiar textos, título o tamaño de ventana
+Edita `config.py`.
 
-* Los cupos son limitados y NO se asignan por orden de llegada. Toda postulación incluye un texto (entre 200 y 1500 caracteres) explicando por qué quieren participar y qué quieren construir.
+### Cambiar colores, degradado de fondo o estilo de botones
+Edita `theme.py`. Todas las variables de color están al inicio del archivo
+(`COLOR_BG_TOP`, `COLOR_ACCENT`, `COLOR_PRIMARY_BTN_BG`, etc.) — cambia esos
+valores hex y se propaga a toda la app automáticamente.
 
-* Después del cierre, el CAi revisa todas las postulaciones y confirma por correo UC a quienes queden seleccionados. No se evalúa el nivel técnico: partir sin experiencia previa es válido y esperable.
----
-### 7. FECHA Y LUGAR
+### Quitar o ajustar las líneas de circuito decorativas
+En `main_window.py`, dentro de `_build_ui()`, se crean dos `CircuitCorner`
+(`circuit_top`, `circuit_bottom`). Puedes eliminar esas líneas, cambiar la
+esquina (`corner="top-right"`, `"bottom-left"`, etc.) o ajustar `opacity`.
 
-* Viernes 14 de agosto, 12:00 a 20:00 hrs.
+### Cambiar la URL que abre "CPU Bench"
+Edita `CPU_BENCH_URL` en `config.py`.
 
-* Campus San Joaquín, Sala de Estudio, Primer Piso.
+### Agregar/quitar un test personalizado (en Opciones)
+Agrega o quita un diccionario en `CUSTOM_TESTS` dentro de `config.py`:
+```python
+CUSTOM_TESTS = [
+    {"key": "cpu", "label": "CPU", "description": "..."},
+    {"key": "mi_test", "label": "Mi Test", "description": "..."},
+]
+```
+El checkbox correspondiente aparece automáticamente en la ventana de Opciones.
 
-* Check-in desde las 12:00 con tu credencial universitaria.
+### Conectar el benchmark real
+Edita `benchmark_logic.py`:
+- `run_full_benchmark()` -> lo que corre el botón principal "Correr Benchmark".
+  Debe devolver un dict con este formato exacto para que `results_window.py`
+  lo muestre correctamente:
+  ```python
+  {
+      "score": 8734,               # score total
+      "cpu_score": 4210, "cpu_name": "AMD Ryzen 7 5800X",
+      "gpu_score": 6120, "gpu_name": "NVIDIA RTX 3070",
+      "ram_score": 3890, "ram_name": "16 GB DDR4 3200MHz",
+      "disk_score": 5310, "disk_name": "NVMe SSD 512GB",
+      "browser_score": 2980,       # sin "_name": es válido omitirlo
+  }
+  ```
+  Si tu función real ya devuelve este formato, solo tienes que reemplazar
+  el `return` placeholder por la llamada a tu función.
+- `run_custom_tests(selected_keys)` -> lo que corre desde Opciones, según los
+  tests que el usuario marcó (usa `key` de cada test en `CUSTOM_TESTS`).
 
----
-### 8. ITINERARIO DEL DÍA
+Ambas funciones aceptan un `progress_callback` opcional para reportar avance
+en tiempo real en la ventana de "ejecutando benchmark".
 
-| Hora | Actividad |
-| --- | --- |
-| 12:00 | Registro y acreditación |
-| 12:15 | Apertura: bienvenida, reglas, presentación de las seis temáticas |
-| 12:40 | Desarrollo: bloque de trabajo de los equipos |
-| 17:10 | Feria de proyectos: los equipos exhiben en simultáneo, jurado y público circulan libremente y el público vota su favorito |
-| 18:50 | El jurado delibera |
-| 19:00 | Premiación |
-| 19:45 | Cierre y fotos |
----
-### 9. TEMÁTICAS
-* Cada equipo elige una de seis, pensadas como problemas
-concretos y no categorías abstractas:
-  * Salud Pública: acceso a atención primaria, listas de espera, telemedicina, salud mental estudiantil.
-  * Educación Pública: brecha digital, deserción escolar, material de estudio en zonas con poca conectividad.
-  * Educación Financiera: manejo de deuda, ahorro y decisiones de inversión informadas.
-  * Sustentabilidad: residuos, huella de carbono, economía circular, monitoreo ambiental.
-  * Transporte: movilidad urbana, congestión, seguridad vial, accesibilidad.
-  * Energía Renovable: eficiencia energética, energías renovables, electrificación rural.
----
-### 10. ENTREGABLES
-* Repositorio público en GitHub con todo el proyecto.
-* Nombre del proyecto, indicado en el repositorio y al momento de entregar.
-* Proyecto listo para exhibir en la Feria: presentación informal, sin pitch ni tiempo fijo.
-La entrega cierra a las 17:10 hrs, cuando comienza la Feria de Proyectos. La vía de entrega se informa el mismo día en la sala.
----
-### 11. REGLAS DE DESARROLLO
-* Código original: todo el código se crea durante el evento (12:40 a 17:10 hrs). Puedes llegar con la idea ya pensada, pero no con código escrito.
-* Se permite código de terceros (librerías, APIs, assets) si se declara y se respeta su licencia.
-* Se autoriza y recomienda el uso de IA para programar (VibeCoding, Copilot, Gemini, etc.), incluida la generación de imágenes y otros assets.
----
-### 12. LICENCIA OPEN SOURCE
+### Agregar o quitar categorías en la pantalla de Resultados
+Edita `RESULT_CATEGORIES` en `config.py`. Cada entrada necesita un `key`
+que coincida con las claves `{key}_score` / `{key}_name` que devuelve
+`benchmark_logic.run_full_benchmark()`. Si una categoría no viene en el
+resultado, la fila simplemente no se muestra (no hace falta que todas las
+categorías estén siempre presentes).
 
-* Todo proyecto debe publicarse bajo una licencia OSI (MIT, Apache 2.0 o GPLv3 recomendadas), con un archivo LICENSE en la raíz del repositorio. Es requisito para ser evaluado.
----
-### 13. CRITERIOS DE EVALUACIÓN
-
-* Innovación y creatividad (15%) · Impacto y relevancia social (25%) · Viabilidad técnica (25%) · Ejecución y funcionamiento (20%) · Comunicación (15%).
----
-### 14. DESCALIFICACIÓN
-
-* Código preexistente no declarado, falsedad en la inscripción, incumplimiento del límite de composición del equipo o cualquier otro incumplimiento de las bases es causal de descalificación, a criterio inapelable del CAi.
-
-* Toda descalificación se notifica por correo a las direcciones declaradas, indicando la causal. En el caso del límite de composición, la descalificación procede solo después de avisar al equipo y de que este no corrija su conformación dentro del plazo.
----
-### 15. PROPIEDAD Y USO DE IMAGEN
-
-* El proyecto es propiedad de tu equipo. Se requiere licencia open source para competir. Al participar, autorizas al CAi a usar el nombre del proyecto y material de presentación, y tu imagen en fotos/videos del evento, con fines promocionales, revocable por escrito en cualquier momento.
----
-### 16. CONDUCTA
-
-* Rige el Código de Honor UC. Cualquier conducta de hostigamiento implica descalificación inmediata.
-
-* Este es un resumen. Las bases oficiales completas, con todas las cláusulas y el detalle de responsabilidad, están disponibles en [este enlace](https://hacaithon.cai.cl/assets/Bases_HaCAithon_2026.pdf).
-
-Consultas: cai@caiuc.cl
+### Cambiar qué se hace al terminar el benchmark
+El resultado del botón principal ahora abre `results_window.py`
+automáticamente. Los tests personalizados de Opciones siguen mostrando un
+`QMessageBox` simple (puedes cambiarlo por `ResultsWindow` también si
+quieres el mismo formato ahí).
