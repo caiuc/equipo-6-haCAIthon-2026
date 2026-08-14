@@ -23,7 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     storageType: DataTypes.STRING,
     storageCapacity: DataTypes.INTEGER,
     graphics: DataTypes.STRING,
-    comment: DataTypes.STRING
+    comment: DataTypes.STRING,
+    tier: {
+      type: DataTypes.STRING,
+      validate: {
+        isIn: [['Baja', 'Media', 'Alta']],
+      },
+    }
   }, {
     sequelize,
     modelName: 'Computer',
