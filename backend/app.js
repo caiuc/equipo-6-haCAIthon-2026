@@ -1,7 +1,14 @@
 const express = require('express');
+const cors = require('cors');
 const routes = require('./routes'); // Importar las rutas desde index.js
 
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:3001', // Reemplaza con la URL de tu frontend
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Métodos permitidos
+    credentials: true, // Permitir cookies y encabezados de autenticación
+  }));
 
 // Middlewares
 app.use(express.json()); // Parsear JSON

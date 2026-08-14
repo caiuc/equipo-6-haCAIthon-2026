@@ -26,8 +26,13 @@
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="inventory-container">
         <div class="inventory-header">
-            <h1 class="container-title">Inventario de Equipos</h1>
-            <p>Listado general de los computadores registrados en el sistema.</p>
+            <div class="inventory-header-top">
+                <div>
+                    <h1 class="container-title">Inventario de Equipos</h1>
+                    <p>Listado general de los computadores registrados en el sistema.</p>
+                </div>
+                <button id="addBtn" class="btn-primary">+ Agregar equipo</button>
+            </div>
         </div>
 
         <!-- Mensaje de estado (Cargando o Error) -->
@@ -47,88 +52,277 @@
                         <th>Almacenamiento</th>
                         <th>Gráficos</th>
                         <th>Comentarios</th>
+                        <th class="col-actions">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="computerTableBody">
-                    <!-- Los datos de la API se inyectarán aquí dinámicamente -->
+                    <!-- Los datos de la API se inyectan aquí dinámicamente -->
                 </tbody>
             </table>
         </div>
     </div>
 
+    <!-- MODAL: AGREGAR / EDITAR EQUIPO -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal">
+            <h2 id="modalTitle">Agregar equipo</h2>
+            <form id="computerForm">
+                <input type="hidden" id="computerId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="f-name">Nombre</label>
+                        <input type="text" id="f-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-owner">Propietario</label>
+                        <input type="text" id="f-owner">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-type">Tipo</label>
+                        <select id="f-type">
+                            <option value="Desktop">Desktop</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Server">Server</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-processor">Procesador</label>
+                        <input type="text" id="f-processor">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-ramType">Tipo de RAM</label>
+                        <input type="text" id="f-ramType">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-ramCapacity">Capacidad RAM (GB)</label>
+                        <input type="number" id="f-ramCapacity" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-storageType">Tipo de almacenamiento</label>
+                        <input type="text" id="f-storageType">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-storageCapacity">Capacidad almacenamiento (GB)</label>
+                        <input type="number" id="f-storageCapacity" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-graphics">Gráficos</label>
+                        <input type="text" id="f-graphics">
+                    </div>
+                    <div class="form-group full">
+                        <label for="f-comment">Comentario</label>
+                        <textarea id="f-comment" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div id="formError" class="error-message"></div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancelBtn" class="btn-secondary">Cancelar</button>
+                    <button type="submit" id="saveBtn" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Lógica de Autenticación y Consumo de API -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. DESACTIVAMOS LA SEGURIDAD PARA PRUEBAS
-            // const token = localStorage.getItem('jwtToken');
-            // if (!token) { window.location.href = 'login.html'; return; }
+        const API_BASE = 'http://localhost:3000/api';
 
-            const table = document.getElementById('computersTable');
-            const tableBody = document.getElementById('computerTableBody');
-            const statusMessage = document.getElementById('statusMessage');
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
 
-            // 2. CREAMOS DATOS FALSOS BASADOS EN TU MODELO
-            const mockComputers = [
-                {
-                    id: 1, name: 'PC-Taller-01', owner: 'Proyecto CPU', type: 'Desktop',
-                    processor: 'Intel Core i5-6500', ramCapacity: 8, ramType: 'DDR4',
-                    storageCapacity: 256, storageType: 'SSD', graphics: 'Intel HD 530',
-                    comment: 'Equipo reparado, listo para donar.'
+        const table = document.getElementById('computersTable');
+        const tableBody = document.getElementById('computerTableBody');
+        const statusMessage = document.getElementById('statusMessage');
+
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const computerForm = document.getElementById('computerForm');
+        const computerIdInput = document.getElementById('computerId');
+        const formError = document.getElementById('formError');
+        const saveBtn = document.getElementById('saveBtn');
+
+        const fields = {
+            name: document.getElementById('f-name'),
+            owner: document.getElementById('f-owner'),
+            type: document.getElementById('f-type'),
+            processor: document.getElementById('f-processor'),
+            ramType: document.getElementById('f-ramType'),
+            ramCapacity: document.getElementById('f-ramCapacity'),
+            storageType: document.getElementById('f-storageType'),
+            storageCapacity: document.getElementById('f-storageCapacity'),
+            graphics: document.getElementById('f-graphics'),
+            comment: document.getElementById('f-comment'),
+        };
+
+        function escapeHtml(value) {
+            const div = document.createElement('div');
+            div.textContent = value ?? '';
+            return div.innerHTML;
+        }
+
+        async function apiFetch(path, options = {}) {
+            const response = await fetch(API_BASE + path, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                    ...(options.headers || {}),
                 },
-                {
-                    id: 2, name: 'Laptop-Coord', owner: 'Directiva', type: 'Laptop',
-                    processor: 'AMD Ryzen 5 3500U', ramCapacity: 12, ramType: 'DDR4',
-                    storageCapacity: 512, storageType: 'NVMe', graphics: 'Vega 8',
-                    comment: 'Uso exclusivo de coordinación.'
-                },
-                {
-                    id: 3, name: 'Server-Local', owner: 'Infraestructura', type: 'Server',
-                    processor: 'Intel Xeon E3-1220', ramCapacity: 32, ramType: 'ECC DDR3',
-                    storageCapacity: 2000, storageType: 'HDD', graphics: 'Integrados',
-                    comment: 'Falta formatear e instalar Linux.'
+            });
+
+            if (response.status === 401) {
+                localStorage.removeItem('jwtToken');
+                window.location.href = 'login.html';
+                return null;
+            }
+
+            return response;
+        }
+
+        function showStatus(message, isError = false) {
+            statusMessage.textContent = message;
+            statusMessage.style.display = 'block';
+            statusMessage.style.color = isError ? '#d32f2f' : '';
+            statusMessage.style.backgroundColor = isError ? '#ffebee' : '';
+            table.classList.add('hidden');
+        }
+
+        function renderRow(pc) {
+            const tr = document.createElement('tr');
+
+            tr.innerHTML = `
+                <td>${pc.id ?? '-'}</td>
+                <td><strong>${escapeHtml(pc.name) || 'N/A'}</strong></td>
+                <td>${escapeHtml(pc.owner) || 'N/A'}</td>
+                <td><span class="badge ${pc.type ? pc.type.toLowerCase() : 'default'}">${escapeHtml(pc.type) || 'N/A'}</span></td>
+                <td>${escapeHtml(pc.processor) || 'N/A'}</td>
+                <td>${pc.ramCapacity ?? '?'} GB ${escapeHtml(pc.ramType)}</td>
+                <td>${pc.storageCapacity ?? '?'} GB ${escapeHtml(pc.storageType)}</td>
+                <td>${escapeHtml(pc.graphics) || 'Integrados'}</td>
+                <td class="comments">${escapeHtml(pc.comment) || 'Sin comentarios'}</td>
+                <td class="col-actions"><button type="button" class="btn-edit">Editar</button></td>
+            `;
+
+            tr.querySelector('.btn-edit').addEventListener('click', () => openModal(pc));
+            tableBody.appendChild(tr);
+        }
+
+        async function loadComputers() {
+            showStatus('Cargando equipos...');
+
+            try {
+                const response = await apiFetch('/computers');
+                if (!response) return;
+                if (!response.ok) throw new Error('No se pudieron cargar los equipos.');
+
+                const computers = await response.json();
+
+                tableBody.innerHTML = '';
+
+                if (computers.length === 0) {
+                    showStatus('No hay equipos registrados todavía.');
+                    return;
                 }
-            ];
 
-            // 3. SIMULAMOS LA CARGA DE LA API (Retraso de 1 segundo para ver el efecto)
-            setTimeout(() => {
-                try {
-                    // Aquí iría el fetch() real en producción.
-                    // Asumimos que "mockComputers" es lo que respondió la API.
+                statusMessage.style.display = 'none';
+                table.classList.remove('hidden');
+                computers.forEach(renderRow);
+            } catch (error) {
+                showStatus(error.message, true);
+            }
+        }
 
-                    statusMessage.style.display = 'none'; // Ocultar mensaje de "Cargando..."
-                    table.classList.remove('hidden'); // Mostrar tabla
+        function openModal(pc = null) {
+            computerForm.reset();
+            formError.style.display = 'none';
 
-                    mockComputers.forEach(pc => {
-                        const tr = document.createElement('tr');
-                        
-                        tr.innerHTML = `
-                            <td>${pc.id || '-'}</td>
-                            <td><strong>${pc.name || 'N/A'}</strong></td>
-                            <td>${pc.owner || 'N/A'}</td>
-                            <td><span class="badge ${pc.type ? pc.type.toLowerCase() : 'default'}">${pc.type || 'N/A'}</span></td>
-                            <td>${pc.processor || 'N/A'}</td>
-                            <td>${pc.ramCapacity || '?'} GB ${pc.ramType || ''}</td>
-                            <td>${pc.storageCapacity || '?'} GB ${pc.storageType || ''}</td>
-                            <td>${pc.graphics || 'Integrados'}</td>
-                            <td class="comments">${pc.comment || 'Sin comentarios'}</td>
-                        `;
-                        tableBody.appendChild(tr);
-                    });
+            if (pc) {
+                modalTitle.textContent = 'Editar equipo';
+                computerIdInput.value = pc.id;
+                fields.name.value = pc.name || '';
+                fields.owner.value = pc.owner || '';
+                fields.type.value = pc.type || 'Desktop';
+                fields.processor.value = pc.processor || '';
+                fields.ramType.value = pc.ramType || '';
+                fields.ramCapacity.value = pc.ramCapacity ?? '';
+                fields.storageType.value = pc.storageType || '';
+                fields.storageCapacity.value = pc.storageCapacity ?? '';
+                fields.graphics.value = pc.graphics || '';
+                fields.comment.value = pc.comment || '';
+            } else {
+                modalTitle.textContent = 'Agregar equipo';
+                computerIdInput.value = '';
+                fields.type.value = 'Desktop';
+            }
 
-                } catch (error) {
-                    statusMessage.textContent = 'Error al simular los datos.';
-                    statusMessage.style.color = '#d32f2f';
-                    statusMessage.style.backgroundColor = '#ffebee';
-                }
-            }, 1000); // 1000 milisegundos = 1 segundo de "carga falsa"
+            modalOverlay.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.add('hidden');
+        }
+
+        document.getElementById('addBtn').addEventListener('click', () => openModal());
+        document.getElementById('cancelBtn').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
         });
 
-        // 4. Lógica para Cerrar Sesión (Simulada)
+        computerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const id = computerIdInput.value;
+            const payload = {
+                name: fields.name.value,
+                owner: fields.owner.value,
+                type: fields.type.value,
+                processor: fields.processor.value,
+                ramType: fields.ramType.value,
+                ramCapacity: fields.ramCapacity.value ? Number(fields.ramCapacity.value) : null,
+                storageType: fields.storageType.value,
+                storageCapacity: fields.storageCapacity.value ? Number(fields.storageCapacity.value) : null,
+                graphics: fields.graphics.value,
+                comment: fields.comment.value,
+            };
+
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Guardando...';
+            formError.style.display = 'none';
+
+            try {
+                const response = await apiFetch(id ? `/computers/${id}` : '/computers', {
+                    method: id ? 'PATCH' : 'POST',
+                    body: JSON.stringify(payload),
+                });
+                if (!response) return;
+
+                if (!response.ok) {
+                    const data = await response.json().catch(() => ({}));
+                    throw new Error(data.error || 'No se pudo guardar el equipo.');
+                }
+
+                closeModal();
+                loadComputers();
+            } catch (error) {
+                formError.textContent = error.message;
+                formError.style.display = 'block';
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Guardar';
+            }
+        });
+
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            alert('En producción, esto borraría el Token y te enviaría al Login.');
-            window.location.href = 'login.html'; 
+            localStorage.removeItem('jwtToken');
+            window.location.href = 'login.html';
         });
+
+        document.addEventListener('DOMContentLoaded', loadComputers);
     </script>
 </body>
 </html>

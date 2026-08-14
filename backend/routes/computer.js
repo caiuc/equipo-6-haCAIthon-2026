@@ -1,7 +1,7 @@
 const express = require('express');
 const { Computer } = require('../models'); // Modelo de computadoras
 const createHttpError = require('../error/createHttpError'); // Para manejar errores
-const authenticate = require('../middleware/authenticate'); // Middleware para verificar el token
+const authenticate = require('../middlewares/authenticate'); // Middleware para verificar el token
 
 const router = express.Router();
 

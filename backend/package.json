@@ -4,6 +4,8 @@
   "description": "<p align=\"left\">   <a href=\"https://tinyurl.com/Hacaithon\" target=\"_blank\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/1/16/Logo_CAi.png\" height=\"28\" alt=\"Logo CAi UC\" align=\"center\" /><img src=\"https://img.shields.io/badge/CAi-Ingenier%C3%ADa_UC-FFC72C?style=for-the-badge\" alt=\"CAi Badge\" align=\"center\" /></a> </p>",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,8 +22,13 @@
   "homepage": "https://github.com/caiuc/equipo-6-haCAIthon-2026#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",

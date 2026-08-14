@@ -16,6 +16,4 @@ router.use('/auth', authRoutes);
 // Rutas de computadoras
 router.use('/computers', computerRoutes);
 
-router.use('/contact');
-
 module.exports = router;
