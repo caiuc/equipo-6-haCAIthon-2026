@@ -1,116 +1,265 @@
-# HaCAiThon 2026 · RESUMEN BASES OFICIALES
+# CPU - Benchmark
 
-<p align="left">
-  <a href="https://tinyurl.com/Hacaithon" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Logo_CAi.png" height="28" alt="Logo CAi UC" align="center" /><img src="https://img.shields.io/badge/CAi-Ingenier%C3%ADa_UC-FFC72C?style=for-the-badge" alt="CAi Badge" align="center" /></a>
-</p>
+Herramienta para **evaluar el rendimiento real de computadores donados** y clasificarlos automáticamente en gamas, de modo que cada equipo recuperado se destine a la tarea educativa que efectivamente puede sostener.
 
-## Centro de Alumnos de Ingeniería UC · Primera edición 
-
-### 1. QUÉ ES
-
-* Hackathon presencial de 8 horas (12:00 a 20:00 hrs) para estudiantes de Ingeniería, de la LICC y de la LICD, trabajando en equipos multidisciplinarios en soluciones a seis 
-desafíos sociales usando programación e IA. Está orientada a estudiantes de pregrado.
----
-### 2. QUIÉNES PUEDEN PARTICIPAR
-
-* Estudiantes de Ingeniería UC, de la LICC y de la LICD, de cualquier nivel y major, con 80 plazas disponibles. No se requiere experiencia previa en programación más allá de Intro a la Progra.
-
-* La competencia está orientada al pregrado, pero se admite posgrado con un límite de composición: cada equipo puede incluir como máximo 1 participante de posgrado (magíster o doctorado); los otros 3 deben ser de pregrado. No se aceptan equipos con 2 o más participantes de posgrado.
-
-* Si cursas ramos de magíster bajo articulación y mantienes tu matrícula de pregrado activa, cuentas como participante de pregrado. Quien participa desde posgrado ocupa una plaza en las mismas condiciones y compite por los mismos premios, salvo el de Mejor Equipo Novato.
----
-### 3. EQUIPOS E INSCRIPCIÓN
-
-* Equipos de 4 personas, con cupos limitados. Puedes postular con menos, o sin equipo: indicas cuántos son y el CAi arma los equipos incompletos antes del evento. No puedes sumarte por tu cuenta a un equipo ya postulado; el emparejamiento lo hace la organización.
-
-* Cada equipo designa un/a líder de grupo como contacto oficial.
-
-* Cada integrante declara en el formulario su programa principal vigente (pregrado o posgrado) y su año de ingreso. Declarar información falsa o incompleta es causal de descalificación.
-
-* Inscripciones: del 2 al 12 de agosto de 2026, hasta las 23:59.
----
-### 4. VERIFICACIÓN DEL EQUIPO
-
-* El CAi revisa la composición declarada de cada equipo durante el plazo de inscripción. Si un equipo excede el límite de 1 participante de posgrado, se le avisa por correo a las direcciones declaradas y tiene hasta el cierre de inscripciones (12 de agosto) para corregirlo. Si el aviso se envía dentro de los últimos 3 días del plazo, el equipo tiene 48 horas desde el envío para responder, aunque eso pase del 12 de agosto.
-
-* El equipo que no corrija su composición a tiempo queda descalificado y su cupo puede reasignarse. Mantén vigentes y revisadas las direcciones de correo que declaraste.
----
-### 5. PREMIO MEJOR EQUIPO NOVATO
-
-* Es novato quien cursa su primer año en la Universidad como estudiante de pregrado; se declara al inscribirse y se verifica con el año de ingreso registrado.
-
-* El Premio Mejor Equipo Novato se otorga solo a equipos formados en su totalidad por participantes novatos. Un equipo con alguien de posgrado, o con cualquier integrante que no sea novato, no opta a este premio, pero compite normalmente por el podio y las demás categorías.
----
-### 6. SELECCIÓN DE POSTULACIONES
-
-* Los cupos son limitados y NO se asignan por orden de llegada. Toda postulación incluye un texto (entre 200 y 1500 caracteres) explicando por qué quieren participar y qué quieren construir.
-
-* Después del cierre, el CAi revisa todas las postulaciones y confirma por correo UC a quienes queden seleccionados. No se evalúa el nivel técnico: partir sin experiencia previa es válido y esperable.
----
-### 7. FECHA Y LUGAR
-
-* Viernes 14 de agosto, 12:00 a 20:00 hrs.
-
-* Campus San Joaquín, Sala de Estudio, Primer Piso.
-
-* Check-in desde las 12:00 con tu credencial universitaria.
+Proyecto del **Equipo 6 — HaCAiThon 2026** (CAi Ingeniería UC), construido sobre la iniciativa CPU de reacondicionamiento y donación de PCs.
 
 ---
-### 8. ITINERARIO DEL DÍA
 
-| Hora | Actividad |
-| --- | --- |
-| 12:00 | Registro y acreditación |
-| 12:15 | Apertura: bienvenida, reglas, presentación de las seis temáticas |
-| 12:40 | Desarrollo: bloque de trabajo de los equipos |
-| 17:10 | Feria de proyectos: los equipos exhiben en simultáneo, jurado y público circulan libremente y el público vota su favorito |
-| 18:50 | El jurado delibera |
-| 19:00 | Premiación |
-| 19:45 | Cierre y fotos |
+## El problema
+
+Cuando llega un lote de PCs donados, decidir qué hacer con cada uno (¿se dona?, ¿se desarma por piezas?, ¿qué distro liviana le instalo?) se hace hoy "a ojo", mirando specs. Pero las specs mienten: dos equipos con el mismo i3 rinden distinto según el disco, la RAM y el estado real del hardware.
+
+La solución de este proyecto es **medir, no leer specs**: correr un benchmark real sobre el equipo, calcular un score ponderado y clasificarlo en una gama con una recomendación de uso concreta.
+
 ---
-### 9. TEMÁTICAS
-* Cada equipo elige una de seis, pensadas como problemas
-concretos y no categorías abstractas:
-  * Salud Pública: acceso a atención primaria, listas de espera, telemedicina, salud mental estudiantil.
-  * Educación Pública: brecha digital, deserción escolar, material de estudio en zonas con poca conectividad.
-  * Educación Financiera: manejo de deuda, ahorro y decisiones de inversión informadas.
-  * Sustentabilidad: residuos, huella de carbono, economía circular, monitoreo ambiental.
-  * Transporte: movilidad urbana, congestión, seguridad vial, accesibilidad.
-  * Energía Renovable: eficiencia energética, energías renovables, electrificación rural.
+
+## Arquitectura
+
+El repositorio agrupa cuatro componentes que hoy viven en carpetas separadas:
+
+| Componente | Carpeta | Stack | Rol |
+|---|---|---|---|
+| **Motor de benchmark** | `benchmark/` | Python + Phoronix Test Suite | Corre las pruebas reales sobre el hardware |
+| **Interfaz gráfica** | `interfaz_grafica/` | Python + PySide6 (Qt) | App de escritorio que dispara el benchmark y muestra resultados |
+| **Backend / API** | `backend/` | Node.js + Express 5 + Sequelize + PostgreSQL | Autenticación e inventario centralizado de equipos |
+| **Sitio web** | `frontend/` | HTML + CSS + JS vanilla | Landing pública, login e inventario |
+
+### Flujo previsto
+
+```
+[PC donado]
+     |
+     v
+GUI (PySide6)  --dispara-->  Phoronix Test Suite  --resultados-->  analyzer
+     |                                                                  |
+     |                                          score global + gama <---+
+     v
+API REST (Express)  -->  PostgreSQL  -->  inventario web (equipos.html)
+```
+
 ---
-### 10. ENTREGABLES
-* Repositorio público en GitHub con todo el proyecto.
-* Nombre del proyecto, indicado en el repositorio y al momento de entregar.
-* Proyecto listo para exhibir en la Feria: presentación informal, sin pitch ni tiempo fijo.
-La entrega cierra a las 17:10 hrs, cuando comienza la Feria de Proyectos. La vía de entrega se informa el mismo día en la sala.
+
+## Componentes en detalle
+
+### 1. Motor de benchmark (`benchmark/initial.py`)
+
+Automatiza **Phoronix Test Suite (PTS)** desde Python, sin interacción manual y sin depender de internet en tiempo de ejecución.
+
+Qué hace el script, en orden:
+
+1. Clona PTS desde GitHub si no existe localmente.
+2. Inicializa la configuración de PTS y acepta el *user agreement* de forma no interactiva.
+3. Parcha `pts_test_run_options.php` para que PTS tome las opciones por defecto de cada test en vez de quedarse esperando input.
+4. Escribe la sección `BatchMode` de `~/.phoronix-test-suite/user-config.xml` directamente (en lugar de usar `batch-setup` interactivo), activando `SaveResults` y desactivando prompts, navegador y subida de resultados.
+5. Instala y corre los tests vía `batch-install` / `batch-run`, pasando `TEST_RESULTS_NAME`, `TEST_RESULTS_IDENTIFIER` y `PRESET_OPTIONS` como variables de entorno.
+
+**Tests elegidos** — el set mínimo representativo para cargas de ofimática y navegación en hardware antiguo:
+
+| Test | Mide |
+|---|---|
+| `pts/stress-ng` | CPU |
+| `pts/stream` | Ancho de banda de RAM |
+| `pts/fio` | Disco (lectura aleatoria 4K) |
+
+**Requisitos:** Linux, `git`, `php`, y las dependencias de compilación que PTS pide para cada perfil de test.
+
+```bash
+cd benchmark/
+python3 initial.py
+```
+
+> El `.gitignore` ya excluye `phoronix-test-suite/`, `test-results/`, `installed-tests/` y demás artefactos que PTS genera en runtime.
+
 ---
-### 11. REGLAS DE DESARROLLO
-* Código original: todo el código se crea durante el evento (12:40 a 17:10 hrs). Puedes llegar con la idea ya pensada, pero no con código escrito.
-* Se permite código de terceros (librerías, APIs, assets) si se declara y se respeta su licencia.
-* Se autoriza y recomienda el uso de IA para programar (VibeCoding, Copilot, Gemini, etc.), incluida la generación de imágenes y otros assets.
+
+### 2. Interfaz gráfica (`interfaz_grafica/`)
+
+App de escritorio en PySide6, diseñada para que un técnico corra el benchmark sin tocar la terminal.
+
+```bash
+pip install PySide6
+python main.py
+```
+
+**Arquitectura por capas** — cada archivo tiene una responsabilidad única:
+
+```
+main.py                      Punto de entrada (QApplication)
+
+  Presentación
+  ├── main_window.py         Ventana principal: botón split (CPU Bench | Opciones)
+  │                          + botón "Correr Benchmark"
+  ├── options_window.py      Selección de tests personalizados (checkboxes
+  │                          generados automáticamente desde config.CUSTOM_TESTS)
+  ├── results_window.py      Score total + tarjeta por categoría
+  ├── running_dialog.py      Diálogo "Ejecutando..." con barra de progreso
+  ├── circuit_background.py  Decoración: líneas de circuito en las esquinas
+  └── theme.py               Paleta de colores y QSS de todos los widgets
+
+  Configuración
+  ├── config.py                     Textos, tamaños, URLs, lista de tests y categorías
+  └── benchmark_analyzer_config.py  Pesos del score y umbrales de las gamas
+
+  Lógica
+  ├── benchmark_controller.py  Orquestador: lanza el worker, muestra el diálogo
+  │                            de progreso y despliega resultados
+  ├── workers.py               QThreads para no congelar la UI
+  ├── benchmark_logic.py       Motor de benchmark (hoy placeholder)
+  └── benchmark_analyzer.py    Calcula el score global y clasifica en gama
+```
+
+La separación clave: `main_window.py` y `options_window.py` **no saben nada** de threads ni de benchmarks. Solo llaman a `BenchmarkController`. Si mañana cambia cómo se ejecuta el benchmark, se toca un solo archivo.
+
+**Contrato de datos.** Todo el flujo se comunica con un dict de forma fija:
+
+```python
+{
+    "score": int,                                    # opcional; si falta, se estima
+    "cpu_score": int,     "cpu_name": str,
+    "gpu_score": int,     "gpu_name": str,
+    "ram_score": int,     "ram_name": str,
+    "disk_score": int,    "disk_name": str,
+    "browser_score": int,
+}
+```
+
 ---
-### 12. LICENCIA OPEN SOURCE
 
-* Todo proyecto debe publicarse bajo una licencia OSI (MIT, Apache 2.0 o GPLv3 recomendadas), con un archivo LICENSE en la raíz del repositorio. Es requisito para ser evaluado.
+### 3. Modelo de evaluación (`benchmark_analyzer.py`)
+
+**Score global.** Si el dict de resultados no trae un `score` ya calculado, se estima ponderando las categorías según `SCORE_WEIGHTS`:
+
+| Categoría | Peso |
+|---|---|
+| CPU | 0.40 |
+| GPU | 0.20 |
+| Disco | 0.20 |
+| RAM | 0.10 |
+| Navegador | 0.10 |
+
+**Clasificación por gamas.** Es una **escala continua**: cada gama define solo un `score_min`, y el techo de una gama es implícitamente el piso de la siguiente. Esto garantiza que *todo* equipo cae en alguna gama — no existe zona gris "sin clasificar".
+
+| Gama | `score_min` | Uso recomendado |
+|---|---|---|
+| Apto para Donación | 0 | Obsoleto para uso normal: reciclaje, piezas, o texto sin multitarea |
+| Gama Baja | 2 500 | Ofimática básica y navegación |
+| Gama Media | 9 000 | Uso general fluido, programación ligera, multitarea |
+| Gama Alta | 40 000 | Modelado 3D, edición de video, VMs |
+
+Cada gama incluye además `reference_metrics` (valores orientativos de `cpu_score`, `disk_score`, `ram_score`) que sirven **solo como contexto informativo** — la decisión se toma únicamente con `score_min`.
+
+Ambas tablas son constantes editables en `benchmark_analyzer_config.py`: ajustar el modelo de evaluación no requiere tocar la lógica.
+
 ---
-### 13. CRITERIOS DE EVALUACIÓN
 
-* Innovación y creatividad (15%) · Impacto y relevancia social (25%) · Viabilidad técnica (25%) · Ejecución y funcionamiento (20%) · Comunicación (15%).
+### 4. Backend / API (`backend/`)
+
+API REST en Express 5 con Sequelize sobre PostgreSQL.
+
+**Modelos**
+
+- `User` — `name`, `email` (único), `password`. Hasheo con bcrypt vía hooks `beforeCreate` / `beforeUpdate`.
+- `Computer` — `name`, `owner`, `type`, `processor`, `ramType`, `ramCapacity`, `storageType`, `storageCapacity`, `graphics`, `comment`.
+
+**Endpoints** (todos bajo el prefijo `/api`)
+
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `GET` | `/` | — | Health check |
+| `POST` | `/auth/login` | — | Login; devuelve JWT válido por 1 h |
+| `POST` | `/auth/forgot-password` | — | Genera token de recuperación (15 min) |
+| `GET` | `/computers` | JWT | Lista todos los equipos |
+| `POST` | `/computers` | JWT | Registra un equipo nuevo |
+| `PATCH` | `/computers/:id` | JWT | Edita un equipo existente |
+| `POST` | `/contact` | — | Formulario de contacto |
+
+La autenticación usa `Authorization: Bearer <token>`; el middleware `authenticate.js` verifica el JWT y adjunta el payload a `req.user`. Los errores se centralizan con el helper `createHttpError(status, message)` y un middleware de error en `app.js`.
+
+**Variables de entorno** (`.env`)
+
+```
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=cpu_db
+DB_USER=...
+DB_PASS=...
+JWT_SECRET=...
+```
+
+**Levantar**
+
+```bash
+cd backend/
+npm install
+npx sequelize-cli db:migrate
+node index.js
+```
+
 ---
-### 14. DESCALIFICACIÓN
 
-* Código preexistente no declarado, falsedad en la inscripción, incumplimiento del límite de composición del equipo o cualquier otro incumplimiento de las bases es causal de descalificación, a criterio inapelable del CAi.
+### 5. Sitio web (`frontend/`)
 
-* Toda descalificación se notifica por correo a las direcciones declaradas, indicando la causal. En el caso del límite de composición, la descalificación procede solo después de avisar al equipo y de que este no corrija su conformación dentro del plazo.
+Sitio estático, sin framework ni build step. Se abre directamente o se sirve con cualquier servidor estático.
+
+| Página | Contenido |
+|---|---|
+| `index.html` | Landing: hero, noticias (donación a Penco, recuperación de equipos, herramienta de benchmark), utilidades, contacto y redes |
+| `benchmark.html` | Descarga de la herramienta + explicación de las tres gamas de rendimiento |
+| `login.html` | Formulario que hace `POST` a `/api/auth/login` y guarda el JWT en `localStorage` |
+| `equipos.html` | Tabla del inventario de equipos registrados |
+
 ---
-### 15. PROPIEDAD Y USO DE IMAGEN
 
-* El proyecto es propiedad de tu equipo. Se requiere licencia open source para competir. Al participar, autorizas al CAi a usar el nombre del proyecto y material de presentación, y tu imagen en fotos/videos del evento, con fines promocionales, revocable por escrito en cualquier momento.
+## Estado actual y pendientes
+
+Este es un prototipo de hackathon (8 horas). Lo que falta, documentado explícitamente:
+
+### Bloqueantes
+
+- **La GUI no está conectada al benchmark real.** `benchmark_logic.get_benchmark_results()` devuelve datos hardcodeados (un Ryzen 7 5800X ficticio). Falta fusionar `initial.py` con `benchmark_logic.py` para que el botón "Correr Benchmark" dispare PTS de verdad y parsee sus resultados.
+- **El backend no arranca.** Hay que resolver antes:
+  - `routes/index.js` llama `router.use('/contact')` sin handler → Express 5 lanza excepción al iniciar.
+  - `routes/contact.js` no importa `express`, no crea un `router` ni exporta nada.
+  - `routes/computer.js` requiere `../middleware/authenticate`, pero la carpeta se llama `middlewares/` (plural).
+  - `models/index.js` requiere `config/config.json`, pero solo existe `config/config.js`.
+  - `package.json` no declara `jsonwebtoken`, `sequelize`, `pg` ni `pg-hstore`, que sí se usan en el código.
+  - `models/user.js` y la migración de usuarios hacen `require('../app')` sin necesitarlo, creando un ciclo de imports.
+- **El inventario web usa datos falsos.** `equipos.html` tiene la verificación de token comentada y renderiza un array `mockComputers` hardcodeado en vez de llamar a `GET /api/computers`.
+
+### Inconsistencias de diseño a resolver
+
+- **Dos modelos de ponderación distintos.** El diseño del benchmark con PTS apunta a disco 45 % / CPU 30 % / RAM 25 % (calibrado con un i3-2100 como piso de referencia). El código en `benchmark_analyzer_config.py` usa CPU 40 % / GPU 20 % / disco 20 % / RAM 10 % / navegador 10 %. Hay que unificar: si el proyecto es solo Linux para ofimática, GPU y navegador probablemente no deberían pesar, y el disco debería dominar.
+- **Categorías sin motor detrás.** La GUI muestra GPU y navegador, pero el set de tests de PTS elegido no los mide.
+- **Escala de scores sin normalizar.** Los umbrales de gamas (2 500 / 9 000 / 40 000) son valores absolutos que no corresponden a las unidades que devuelve PTS. Falta la normalización 0–100 contra el equipo de referencia.
+- `PRESET_OPTIONS` en `initial.py` tiene placeholders sin completar (`fio.mode=...`, `fio.blocksize=...`).
+- `CPU_BENCH_URL` en `config.py` apunta a `https://example.com/cpu-bench-info`.
+- El README de `frontend/`, `backend/` y `benchmark/` sigue siendo el resumen de las bases de la hackathon, no documentación del código.
+- No hay tests en ningún componente.
+
 ---
-### 16. CONDUCTA
 
-* Rige el Código de Honor UC. Cualquier conducta de hostigamiento implica descalificación inmediata.
+## Estructura del repositorio
 
-* Este es un resumen. Las bases oficiales completas, con todas las cláusulas y el detalle de responsabilidad, están disponibles en [este enlace](https://hacaithon.cai.cl/assets/Bases_HaCAithon_2026.pdf).
+```
+project_cpu/
+├── benchmark/          Motor de benchmark (Python + PTS)
+│   └── initial.py
+├── interfaz_grafica/   App de escritorio (PySide6)
+├── backend/            API REST (Express + Sequelize + PostgreSQL)
+│   ├── app.js, index.js
+│   ├── config/, models/, migrations/
+│   ├── routes/         auth, computer, contact
+│   ├── middlewares/    authenticate (JWT)
+│   └── error/          createHttpError
+└── frontend/           Sitio estático
+    ├── index.html, benchmark.html, login.html, equipos.html
+    └── images/
+```
 
-Consultas: cai@caiuc.cl
+---
+
+## Licencia
+
+MIT — © 2026 CAi UC.
