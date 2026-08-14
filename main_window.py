@@ -139,9 +139,46 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(center_layout)
         main_layout.addStretch()
 
+        # --- Indicador de estado del motor de benchmark ---
+        # Le avisa al usuario de entrada qué motor va a usar (nativo,
+        # real y siempre disponible; o PTS si config.USE_PTS está
+        # activo y lo encontró), sin que tenga que esperar a terminar
+        # una corrida para enterarse.
+        self.pts_status_label = QLabel()
+        self.pts_status_label.setObjectName("ptsStatusLabel")
+        self.pts_status_label.setAlignment(Qt.AlignCenter)
+        self.pts_status_label.setWordWrap(True)
+        main_layout.addWidget(self.pts_status_label)
+        self._refresh_pts_status()
+
         # Las líneas de circuito quedan detrás de todo lo demás
         circuit_top.lower()
         circuit_bottom.lower()
+
+    def _refresh_pts_status(self):
+        """Actualiza el label de abajo según qué motor de benchmark se va a usar."""
+        if config.USE_PTS:
+            import pts_integration
+            if pts_integration.is_available():
+                info = pts_integration.get_system_info()
+                version = info.get("pts_version", "")
+                suffix = f" v{version}" if version else ""
+                self.pts_status_label.setText(
+                    f"✓ Phoronix Test Suite detectado{suffix} — benchmarks reales"
+                )
+                self.pts_status_label.setStyleSheet(theme.PTS_STATUS_OK_QSS)
+                return
+            self.pts_status_label.setText(
+                "⚠ USE_PTS está activo pero no se encontró Phoronix Test Suite "
+                "— usando el motor nativo (real) en su lugar"
+            )
+            self.pts_status_label.setStyleSheet(theme.PTS_STATUS_WARN_QSS)
+            return
+
+        self.pts_status_label.setText(
+            "✓ Motor nativo activo — mide CPU/RAM/disco reales de este equipo"
+        )
+        self.pts_status_label.setStyleSheet(theme.PTS_STATUS_OK_QSS)
 
     def _on_central_resize(self, event):
         # Mantiene las decoraciones de circuito cubriendo toda la ventana

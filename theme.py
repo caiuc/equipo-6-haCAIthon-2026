@@ -307,6 +307,27 @@ QLabel#resultScore {{
 """
 
 # ---------------------------------------------------------------------------
+# Indicador de estado de Phoronix Test Suite (main_window.py)
+# ---------------------------------------------------------------------------
+PTS_STATUS_OK_QSS = """
+QLabel#ptsStatusLabel {
+    color: #8bffc7;
+    font-family: Segoe UI, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+"""
+
+PTS_STATUS_WARN_QSS = """
+QLabel#ptsStatusLabel {
+    color: #ffd27a;
+    font-family: Segoe UI, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+"""
+
+# ---------------------------------------------------------------------------
 # Ensambla todo el QSS de una ventana a partir de los fragmentos anteriores
 # ---------------------------------------------------------------------------
 def full_stylesheet(*fragments: str) -> str:

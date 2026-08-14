@@ -1,0 +1,6 @@
+PySide6>=6.5
+
+# Opcional: mejora la detección de RAM/disco en el motor nativo de
+# benchmark (native_benchmark.py). Si no está instalada, la app sigue
+# funcionando igual (usa fallbacks de la librería estándar).
+psutil>=5.9
