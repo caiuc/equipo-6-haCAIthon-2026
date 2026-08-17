@@ -1,0 +1,35 @@
+{
+  "name": "CPU-Benchmark · HaCAithon 2026",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "forwardPorts": [
+    3000,
+    8080
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "Servicio 3000",
+      "onAutoForward": "silent"
+    },
+    "8080": {
+      "label": "Aplicación",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postAttachCommand": {
+    "app": "bash -lc 'cd backend && node index.js & cd frontend && python3 -m http.server 8080; wait'"
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "README.md"
+      ]
+    }
+  },
+  "postCreateCommand": "cd backend && npm install",
+  "features": {
+    "ghcr.io/itsmechlark/features/postgresql:1": {
+      "version": "16"
+    }
+  },
+  "//": "La app de escritorio que corre las pruebas de hardware no aplica en Codespaces"
+}
